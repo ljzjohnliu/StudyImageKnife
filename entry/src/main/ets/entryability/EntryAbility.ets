@@ -3,6 +3,7 @@ import hilog from '@ohos.hilog';
 import UIAbility from '@ohos.app.ability.UIAbility';
 import Want from '@ohos.app.ability.Want';
 import window from '@ohos.window';
+import { ImageKnife } from '@ohos/imageknife'
 
 export default class EntryAbility extends UIAbility {
   onCreate(want: Want, launchParam: AbilityConstant.LaunchParam): void {
@@ -24,6 +25,10 @@ export default class EntryAbility extends UIAbility {
       }
       hilog.info(0x0000, 'testTag', 'Succeeded in loading the content. Data: %{public}s', JSON.stringify(data) ?? '');
     });
+
+    // 初始化全局ImageKnife
+    ImageKnife.with(this.context);
+    // 后续访问ImageKnife请通过:ImageKnifeGlobal.getInstance().getImageKnife()方式
   }
 
   onWindowStageDestroy(): void {

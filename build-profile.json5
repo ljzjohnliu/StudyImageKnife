@@ -1,6 +1,20 @@
 {
   "app": {
-    "signingConfigs": [],
+    "signingConfigs": [
+      {
+        "name": "default",
+        "type": "HarmonyOS",
+        "material": {
+          "certpath": "/Users/bytedance/.ohos/config/auto_debug_StudyImageKnife_com.study.imageknife_350086000134523798.cer",
+          "storePassword": "0000001BD27CD4E761EB62BD130F894CBC6FE1607BE41999B0BE0930C45697EF6EB08292406C2E9863A28B",
+          "keyAlias": "debugKey",
+          "keyPassword": "0000001B9F0A1F70FC0FD71AEB140D6F731BEF8184CE1687663AF2386266F54543CC9271644D649E5D2765",
+          "profile": "/Users/bytedance/.ohos/config/auto_debug_StudyImageKnife_com.study.imageknife_350086000134523798.p7b",
+          "signAlg": "SHA256withECDSA",
+          "storeFile": "/Users/bytedance/.ohos/config/auto_debug_StudyImageKnife_com.study.imageknife_350086000134523798.p12"
+        }
+      }
+    ],
     "products": [
       {
         "name": "default",
