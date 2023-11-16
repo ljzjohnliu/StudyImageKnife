@@ -1,5 +1,5 @@
 {
-  "license": "",
+  "license": "Apache License 2.0",
   "devDependencies": {},
   "author": "",
   "name": "entry",
@@ -7,6 +7,9 @@
   "main": "",
   "version": "1.0.0",
   "dependencies": {
-    "@ohos/imageknife": "2.1.1-rc.1"
+//    "@ohos/imageknife": "2.1.1-rc.1",
+    //使用本地imageKnife源码
+    "@ohos/imageknife": "file:../imageknife",
+    "@ohos/disklrucache": "^2.0.2-rc.0"
   }
 }

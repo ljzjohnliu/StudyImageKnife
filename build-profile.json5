@@ -45,6 +45,14 @@
           ]
         }
       ]
+    },
+    {
+      "name": "imageknife",
+      "srcPath": "./imageknife"
+    },
+    {
+      "name": "gpu_transform",
+      "srcPath": "./gpu_transform"
     }
   ]
 }

@@ -1,0 +1,10 @@
+{
+  "module": {
+    "name": "gpu_transform",
+    "type": "har",
+    "deviceTypes": [
+      "default",
+      "tablet"
+    ]
+  }
+}
