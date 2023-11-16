@@ -1,5 +1,12 @@
 // import { ImageKnifeComponent } from '@ohos/imageknife/src/main/ets/components/imageknife/ImageKnifeComponent';
-import { ImageKnifeComponent, ImageKnifeOption, ImageKnife, ImageKnifeGlobal } from '@ohos/imageknife'
+import { ImageKnifeComponent, ImageKnifeOption, ImageKnife, ImageKnifeGlobal, ScaleType, DiskStrategy,
+  AUTOMATIC,
+  TransformType,
+  RotateImageTransformation,
+  AllCacheInfo,
+  ObjectKey,
+  ImageKnifeDrawFactory
+} from '@ohos/imageknife'
 import worker from '@ohos.worker'
 
 @Entry
@@ -24,10 +31,44 @@ struct Index {
     placeholderSrc: $r('app.media.icon_loading'),
     errorholderSrc: $r('app.media.icon_failed')
   }
-  @State gifOption2: ImageKnifeOption = {
+  //罗列ImageKnifeOption的各属性配置
+  @State demoOption: ImageKnifeOption = {
     loadSrc: $r('app.media.icon_loading'),
+    mainScaleType: ScaleType.FIT_CENTER,
+    strategy: new AUTOMATIC(),
+    dontAnimateFlag: false,
     placeholderSrc: $r('app.media.icon_loading'),
-    errorholderSrc: $r('app.media.icon_failed')
+    placeholderScaleType: ScaleType.FIT_XY,
+    errorholderSrc: $r('app.media.icon_failed'),
+    errorholderSrcScaleType:ScaleType.FIT_START,
+    retryholderScaleType: ScaleType.FIT_END,
+    thumbSizeMultiplier: 0.5,
+    thumbSizeDelay:1000,
+    thumbSizeMultiplierScaleType:ScaleType.FIT_CENTER,
+    displayProgress: true,
+    canRetryClick:false,
+    onlyRetrieveFromCache:true,
+    isCacheable:false,
+    transform: {
+      transformType: TransformType.RotateImageTransformation,
+      rotateImage: 180
+    },
+    transformations:[new RotateImageTransformation(180)],
+    allCacheInfoCallback:{callback:(allCacheInfo:AllCacheInfo)=>{
+      let info = allCacheInfo as AllCacheInfo;
+      console.log("AllCacheInfoCallback imageknifecomponent1 memory ="+JSON.stringify(info.memoryCacheInfo))
+      console.log("AllCacheInfoCallback imageknifecomponent1 resource ="+JSON.stringify(info.resourceCacheInfo))
+      console.log("AllCacheInfoCallback imageknifecomponent1 data ="+JSON.stringify(info.dataCacheInfo))
+    }
+    },
+    signature:new ObjectKey(new Date().getTime().toString()),
+    drawLifeCycle:ImageKnifeDrawFactory.createOvalLifeCycle(15,'#ff000000')
+
+    // gif: {
+    //   loopFinish:{loopTime:2000},
+    //   speedFactory:2,
+    //   seekTo:3
+    // }
   }
 
   build() {
@@ -56,7 +97,7 @@ struct Index {
                 loadSrc: 'https://gd-hbimg.huaban.com/e0a25a7cab0d7c2431978726971d61720732728a315ae-57EskW_fw658',
                 placeholderSrc: $r('app.media.icon_loading'),
                 errorholderSrc: $r('app.media.icon_failed'),
-                displayProgress: true,
+                displayProgress: true
               }
             }).margin({top: 5, left: 3})
           ImageKnifeComponent({imageKnifeOption: this.gifOption1}).width(200).height(200)
