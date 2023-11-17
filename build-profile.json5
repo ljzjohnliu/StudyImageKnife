@@ -53,6 +53,18 @@
     {
       "name": "gpu_transform",
       "srcPath": "./gpu_transform"
+    },
+    {
+      "name": "TodoDemo",
+      "srcPath": "./TodoDemo",
+      "targets": [
+        {
+          "name": "default",
+          "applyToProducts": [
+            "default"
+          ]
+        }
+      ]
     }
   ]
 }
