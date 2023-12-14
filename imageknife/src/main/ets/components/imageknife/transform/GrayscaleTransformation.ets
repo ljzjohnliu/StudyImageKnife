@@ -93,7 +93,7 @@ export class GrayscaleTransformation implements BaseTransform<PixelMap> {
       const g = dataArray[index+1];
       const b = dataArray[index+2];
       const f = dataArray[index+3];
-      //b g r
+      // b g r
       dataNewArray[index] = this.grayscale(r, g, b);
       dataNewArray[index+1] = this.grayscale(r, g, b);
       dataNewArray[index+2] = this.grayscale(r, g, b);

@@ -14,32 +14,110 @@
  */
 import { ImageKnife } from '../imageknife/ImageKnife';
 import { ImageKnifeData } from '../imageknife/ImageKnifeData';
+import { LogUtil } from '../imageknife/utils/LogUtil';
 import { LruCache } from './LruCache';
 
-export class MemoryLruCache extends LruCache<string, ImageKnifeData>{
-  constructor(maxsize:number) {
-    super(maxsize)
+export class MemoryLruCache extends LruCache<string, ImageKnifeData> {
+  maxMemory: number = 0
+  memorySize: number = 0
+
+  constructor(maxsize: number, maxMemory: number) {
+    super(maxsize);
+    this.removeAll();
+    this.maxMemory = maxMemory
+    this.memorySize = 0;
+  }
+
+  // 添加缓存键值对
+  put(key: string, value: ImageKnifeData) {
+    if (key == null || value == null) {
+      throw new Error('key or value is invalid ');
+    }
+    let pre = this.map.get(key)
+    if (pre == null ) {
+      this.size++
+      this.addMemorySize(value)
+    }
+    this.entryRemoved(key, pre, value);
+    this.trimToSize();
+  }
+
+  // 移除键为key的缓存
+  remove(key: string): ImageKnifeData | undefined {
+    if (key == null) {
+      throw new Error('key is null,checking the parameter');
+    }
+    let preValue = this.map.get(key)
+    if (this.map.remove(key)) {
+      this.size--
+      if (preValue != undefined) {
+        this.removeMemorySize(preValue)
+      }
+    }
+    return preValue
+  }
+
+  removeAll() {
+    this.map.clear()
+    this.size = 0
+    this.memorySize = 0;
   }
 
   // 移除较少使用的缓存数据
-  trimToSize(tempsize: number) {
+  trimToSize() {
+    LogUtil.info("MemoryLruCache maxSize：" + this.maxsize + "  maxMemory: " + this.maxMemory)
+    if (this.maxMemory == 0 || this.maxsize == 0 ){
+      return;
+    }
     while (true) {
-      if (tempsize < 0) {
-        this.map.clear()
-        this.size = 0
-        break
-      }
-      if (this.size <= tempsize || this.map.isEmpty()) {
+      if (this.size <= this.maxsize && this.memorySize <= this.maxMemory || this.map.isEmpty()) {
         break
       }
       let delkey = this.map.getFirstKey()
-      let data : ImageKnifeData|undefined = this.map.get(delkey)
-      if(data != undefined){
+      let data: ImageKnifeData | undefined = this.map.get(delkey)
+      this.size--
+      if (data != undefined) {
+        this.removeMemorySize(data)
         data.release()
       }
       this.map.remove(delkey)
-      this.size--
     }
+  }
+
+  private removeMemorySize(value: ImageKnifeData): void {
+    if (value.drawPixelMap != undefined) {
+      LogUtil.info("MemoryLruCache removeMemorySize---- top drawPixelMap memorySize：" + this.memorySize)
+      if (value.drawPixelMap.imagePixelMap != undefined) {
+        this.memorySize -= value.drawPixelMap.imagePixelMap.getPixelBytesNumber();
+      }
+      LogUtil.info("MemoryLruCache removeMemorySize---- end drawPixelMap memorySize：" + this.memorySize)
+    }
+    if (value.drawGIFFrame != undefined) {
+      LogUtil.info("MemoryLruCache removeMemorySize---- top drawGIFFrame memorySize：" + this.memorySize)
+      if (value.drawGIFFrame != undefined) {
+        this.memorySize -= value.drawGIFFrame.getGIFFramesBytesNumber();
+      }
+      LogUtil.info("MemoryLruCache removeMemorySize---- end drawGIFFrame memorySize：" + this.memorySize)
+    }
+    LogUtil.info("MemoryLruCache removeMemorySize---- end  mapSize：" + this.map.size())
+  }
+
+  private addMemorySize(value: ImageKnifeData): void {
+    if (value.drawPixelMap != undefined) {
+      LogUtil.info("MemoryLruCache addMemorySize---- top drawPixelMap memorySize：" + this.memorySize)
+      if (value.drawPixelMap.imagePixelMap != undefined) {
+        this.memorySize += value.drawPixelMap.imagePixelMap.getPixelBytesNumber();
+      }
+      LogUtil.info("MemoryLruCache addMemorySize---- end drawPixelMap memorySize：" + this.memorySize)
+    }
+    if (value.drawGIFFrame != undefined) {
+      LogUtil.info("MemoryLruCache addMemorySize---- top drawGIFFrame memorySize：" + this.memorySize)
+      if (value.drawGIFFrame != undefined) {
+        this.memorySize += value.drawGIFFrame.getGIFFramesBytesNumber();
+      }
+      LogUtil.info("MemoryLruCache addMemorySize---- end drawGIFFrame memorySize：" + this.memorySize)
+    }
+    LogUtil.info("MemoryLruCache addMemorySize---- end  mapSize：" + this.map.size())
   }
 
 }

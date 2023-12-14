@@ -74,9 +74,9 @@ export namespace pixelUtils {
     let realPixel_W = pixel > targetWidth ? targetWidth : pixel;
     let realPixel_H = pixel > targetHeight ? targetHeight : pixel;
 
-    //横排的正方形个数
+    // 横排的正方形个数
     let x_index = Math.floor(targetWidth / realPixel_W);
-    //纵排的正方形个数
+    // 纵排的正方形个数
     let y_index = Math.floor(targetHeight / realPixel_H);
 
     for (let ch = 0; ch < y_index; ch++) {
@@ -89,9 +89,9 @@ export namespace pixelUtils {
         let min_x = cw * realPixel_W;
         let min_y = ch * realPixel_H;
 
-        //取左上角的像素值
+        // 取左上角的像素值
         let center_p = inPixels[min_y+1][min_x+1];
-        //设置该正方形里的像素统一
+        // 设置该正方形里的像素统一
         for (let zh = min_y; zh < max_y; zh++) {
           for (let zw = min_x; zw < max_x; zw++) {
             inPixels[zh][zw] = center_p;

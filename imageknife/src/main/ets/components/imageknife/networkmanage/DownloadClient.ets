@@ -44,7 +44,6 @@ export class DownloadClient implements IDataFetch {
         this.dataShareFileClient.loadData(request, onCompleteFunction, onErrorFunction)
       } else {
         // 网络下载
-        // this.networkDownloadClient.loadData(request, onCompleteFunction, onErrorFunction)
         this.httpDownloadClient.loadData(request, onCompleteFunction, onErrorFunction)
       }
     }

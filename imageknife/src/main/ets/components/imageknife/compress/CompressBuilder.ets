@@ -27,7 +27,7 @@ import common from '@ohos.app.ability.common';
 
 export class CompressBuilder {
   private _mTargetDir: string = '';
-  private _mLeastCompressSize: number= 100; //KB
+  private _mLeastCompressSize: number= 100; // KB
   private _mRenameListener: OnRenameListener = {reName:()=>{return ''}};
   private _mCompressListener: OnCompressListener={
     start:()=> {},

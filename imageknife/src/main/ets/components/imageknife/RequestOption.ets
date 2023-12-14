@@ -90,7 +90,7 @@ export class RequestOption {
   onlyRetrieveFromCache: boolean = false;
   isCacheable: boolean = true;
 
-  //开启GPU变换绘制
+  // 开启GPU变换绘制
   gpuEnabled: boolean = false;
   // 变换相关
   transformations: Array<BaseTransform<PixelMap>> = new Array();
@@ -100,7 +100,7 @@ export class RequestOption {
   filesPath: string = ""; // data/data/包名/files目录
   cachesPath: string = ""; // 网络下载默认存储在data/data/包名/cache/ImageKnifeNetworkFolder/目标md5.img下面
 
-  //自定义缓存关键字
+  // 自定义缓存关键字
   signature?: ObjectKey;
 
   // 下载原始文件地址
@@ -438,7 +438,7 @@ export class RequestOption {
     this.transformations = inputs;
     return this;
   }
-  //开启GPU变换绘制
+  // 开启GPU变换绘制
   enableGPU() {
     this.gpuEnabled = true;
     return this;
@@ -465,7 +465,7 @@ export class RequestOption {
   // 缩略图解析成功
   thumbholderOnComplete = (imageKnifeData: ImageKnifeData)=> {
     if (!this.loadMainReady && !(this.loadErrorReady || this.loadRetryReady)) {
-      //主图未加载成功,并且未加载失败  显示占位图  主图加载成功或者加载失败后=>不展示占位图
+      // 主图未加载成功,并且未加载失败  显示占位图  主图加载成功或者加载失败后=>不展示占位图
       if(this.thumbHolderFunc != undefined) {
         this.thumbHolderFunc?.asyncSuccess(imageKnifeData)
       }
@@ -488,7 +488,7 @@ export class RequestOption {
     }
   }
 
-  //加载失败 占位图解析失败
+  // 加载失败 占位图解析失败
   errorholderOnError = (error:BusinessError|string)=> {
     LogUtil.log("失败占位图解析失败 error =" + error)
   }
@@ -529,11 +529,11 @@ export class RequestOption {
       }
     }
 
-    // // 加载成功之后
-    // let imageKnife:ImageKnife | undefined = ImageKnifeGlobal.getInstance().getImageKnife();
-    // if(imageKnife != undefined) {
-    //   imageKnife.removeRunning(this);
-    // }
+
+
+
+
+
   }
 
   // 图片文件落盘之后会自动去寻找下一个数据加载
@@ -545,7 +545,7 @@ export class RequestOption {
 
   loadError = (err:BusinessError|string)=>{
     LogUtil.log("loadError:" + err);
-    //失败占位图展示规则
+    // 失败占位图展示规则
     if (this.retryholderFunc) {
       // 重试图层优先于加载失败展示
       this.loadRetryReady = true;

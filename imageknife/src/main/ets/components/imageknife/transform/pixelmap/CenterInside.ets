@@ -13,7 +13,7 @@
  * limitations under the License.
  */
 
-import    {BaseTransform} from '../BaseTransform'
+import {BaseTransform} from '../BaseTransform'
 import {AsyncTransform} from '../AsyncTransform'
 import {Constants} from '../../constants/Constants'
 import {TransformUtils} from '../TransformUtils'
@@ -31,12 +31,6 @@ export class CenterInside implements BaseTransform<PixelMap> {
       }
       return;
     }
-    TransformUtils.centerInside(buf, request.size.width, request.size.height, {asyncTransform:(error:BusinessError|string, data:Promise<PixelMap>|null) => {
-      data?.then(p => {
-        func?.asyncTransform('', p);
-      }).catch((e:BusinessError) => {
-        func?.asyncTransform(Constants.PROJECT_TAG + ';CenterInside error:' + e, null);
-      })
-    }})
+    TransformUtils.centerInside(buf, request.size.width, request.size.height, func)
   }
 }

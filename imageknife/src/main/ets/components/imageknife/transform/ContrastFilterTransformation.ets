@@ -107,7 +107,7 @@ export class ContrastFilterTransformation implements BaseTransform<PixelMap> {
 
     let dataArray = new Uint8Array(bufferData);
 
-    let brightness = 0; //亮度的偏移量，可以默认0
+    let brightness = 0; // 亮度的偏移量，可以默认0
     for (let index = 0; index < dataArray.length; index += 4) {
       dataArray[index] = this.checkVisAble((dataArray[index] - 127) * this._mContrast + brightness + 127);
       dataArray[index+1] = this.checkVisAble((dataArray[index+1] - 127) * this._mContrast + brightness + 127);

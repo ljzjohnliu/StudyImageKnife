@@ -170,7 +170,7 @@ export class RequestManager {
     }
   }
 
-  //究竟从哪里加载数据
+  // 究竟从哪里加载数据
   private searchLoadFrom(request: RequestOption, current: Stage, onComplete:(value:ImageKnifeData)=>void|PromiseLike<ImageKnifeData>, onError:(reason?:BusinessError|string)=>void) {
     LogUtil.log("RequestManager searchLoadFrom")
     if (current == Stage.RESOURCE_CACHE) {
@@ -466,8 +466,8 @@ export class RequestManager {
 
       // 保存二级磁盘缓存
       Promise.resolve(source)
-        .then(async (arraybuffer: ArrayBuffer)=>{
-          await this.mDiskCacheProxy.putValue(this.options.generateDataKey, arraybuffer)
+        .then((arraybuffer: ArrayBuffer)=>{
+          this.mDiskCacheProxy.putValue(this.options.generateDataKey, arraybuffer)
         })
         .catch( (err:BusinessError)=>{
           LogUtil.log('download file is ='+ImageKnifeData.GIF+'and save diskLruCache error ='+ (err as BusinessError))
@@ -480,8 +480,8 @@ export class RequestManager {
 
       // 保存二级磁盘缓存
       Promise.resolve(source)
-        .then(async (arraybuffer: ArrayBuffer)=>{
-          await this.mDiskCacheProxy.putValue(this.options.generateDataKey, arraybuffer)
+        .then((arraybuffer: ArrayBuffer)=>{
+          this.mDiskCacheProxy.putValue(this.options.generateDataKey, arraybuffer)
         })
         .catch((err:BusinessError)=>{
           LogUtil.log('download file is ='+ImageKnifeData.SVG+'and save diskLruCache error ='+ (err as BusinessError))
@@ -548,8 +548,8 @@ export class RequestManager {
   private saveCacheAndDisk(value: PixelMap, filetype:string, onComplete:(value:ImageKnifeData)=>void|PromiseLike<ImageKnifeData>, source:ArrayBuffer) {
     let imageKnifeData = this.createImagePixelMap(ImageKnifeType.PIXELMAP, value);
     this.mMemoryCacheProxy.putValue(this.options.generateCacheKey, imageKnifeData);
-    let save2DiskCache = async (arraybuffer:ArrayBuffer) => {
-      await this.mDiskCacheProxy.putValue(this.options.generateDataKey, arraybuffer)
+    let save2DiskCache = (arraybuffer:ArrayBuffer) => {
+      this.mDiskCacheProxy.putValue(this.options.generateDataKey, arraybuffer)
       // 落盘之后需要主动移除当前request并且调用下一个加载
       let removeCurrentAndSearchNextRun = this.options.removeCurrentAndSearchNext
       removeCurrentAndSearchNextRun();

@@ -439,12 +439,12 @@ export class ImageKnifeDrawFactory{
   private static drawDefaultProgress(context: CanvasRenderingContext2D, progress: number, imageKnifeOption: ImageKnifeOption,
                                      compWidth: number, compHeight: number,
                                      fontColor:string, fontSizeRate:number,setGifTimeId?: (timeId: number) => void,){
-    let pi = Math.PI * 2 / 100; //pi 讲圆的周长划分为100份
+    let pi = Math.PI * 2 / 100; // pi 讲圆的周长划分为100份
     let rate = progress - 25;
     let diameter = compWidth > compHeight ? compHeight : compWidth
     context.lineWidth = Math.floor(diameter * 0.03)
     context.lineCap = "round"
-    context.fillStyle = fontColor//"#10a5ff"
+    context.fillStyle = fontColor// "#10a5ff"
     context.font = Math.floor(diameter * fontSizeRate *px2vp(1))+'px'
     let x0 = (compWidth - diameter) / 2.0 + Math.floor(diameter * 0.5)
     let y0 = (compHeight - diameter) / 2.0 + Math.floor(diameter * 0.1)

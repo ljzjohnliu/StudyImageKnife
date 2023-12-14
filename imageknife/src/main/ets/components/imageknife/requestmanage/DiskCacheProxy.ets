@@ -41,8 +41,8 @@ export class DiskCacheProxy implements ICache<string, ArrayBuffer> {
     return this.mDiskLruCache.get(key);
   }
 
-  async putValue(key: string, value: ArrayBuffer) {
-    await this.mDiskLruCache.setAsync(key, value)
+  putValue(key: string, value: ArrayBuffer) {
+    this.mDiskLruCache.set(key, value)
   }
 
   removeValue(key: string): ArrayBuffer{

@@ -14,13 +14,6 @@
  */
 import { LogUtil } from '../../imageknife/utils/LogUtil'
 
-// jpg = 'jpg,0,FFD8',
-// png = 'png,0,89504E470D0A1A0A',
-// bmp = 'bmp,0,424D',
-// gif = 'gif,0,474946383961',
-// svg = 'svg,0,3C3F786D6C',
-// webp = 'webp,0,52494646',
-// tiff = 'tiff,0,492049|49492A00|4D4D002A|4D4D002B'
 
 export class FileTypeUtil {
   private fileSignatureMap: Record<string, Array<Uint8Array>> = {

@@ -15,5 +15,6 @@
 import { BusinessError } from '@ohos.base'
 export interface IParseImage<T> {
   parseImage:(imageinfo:ArrayBuffer, onCompleteFunction:(value:T)=>void | PromiseLike<T>, onErrorFunction:(reason?:BusinessError|string)=>void)=>void;
-  parseImageThumbnail:(scale:number, imageinfo:ArrayBuffer, onCompleteFunction:(value:T)=>void | PromiseLike<T>, onErrorFunction:(reason?:BusinessError|string)=>void)=>void;
+  parseImageThumbnail:(scale:number, imageinfo:ArrayBuffer, onCompleteFunction:(value:T)=>void | PromiseLike<T>,
+                       onErrorFunction:(reason?:BusinessError|string)=>void)=>void;
 }

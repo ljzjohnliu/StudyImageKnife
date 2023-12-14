@@ -122,9 +122,9 @@ export class CropCircleWithBorderTransformation implements BaseTransform<PixelMa
 
     for (let h = 0;h <= height; h++) {
       for (let w = 0;w <= width; w++) {
-        //不在大圆之内的设置透明
-        //在大圆与小圆之间的  设置rgb值
-        //小圆之内的不变
+        // 不在大圆之内的设置透明
+        // 在大圆与小圆之间的  设置rgb值
+        // 小圆之内的不变
         let isSmallCircle: boolean = this.isContainsSmallCircle(w, h);
         let isBigCircle: boolean = this.isContainsCircle(w, h);
         if (isSmallCircle) {
@@ -133,13 +133,13 @@ export class CropCircleWithBorderTransformation implements BaseTransform<PixelMa
 
         let index = (h * width + w) * 4;
         if (!isBigCircle) {
-          //设置透明
+          // 设置透明
           dataArray[index] = 0;
           dataArray[index+1] = 0;
           dataArray[index+2] = 0;
           dataArray[index+3] = 0;
         } else {
-          //设置broke
+          // 设置broke
           dataArray[index] = this.mRColor;
           dataArray[index+1] = this.mGColor;
           dataArray[index+2] = this.mBColor;

@@ -270,7 +270,7 @@ export class FileUtils {
    * @param 文件夹绝对路径
    */
   createFolder(path: string) {
-    //创建文件夹
+    // 创建文件夹
     if (!this.existFolder(path)) {
       fs.mkdirSync(path)
     }
@@ -297,11 +297,11 @@ export class FileUtils {
    * @param content 文件内容数据
    */
   createFileProcess(folder: string, file: string, content: ArrayBuffer | string) {
-    //创建文件夹
+    // 创建文件夹
     this.createFolder(folder);
-    //创建文件
+    // 创建文件
     this.createFile(file);
-    //写入数据
+    // 写入数据
     this.writeFile(file, content)
   }
 

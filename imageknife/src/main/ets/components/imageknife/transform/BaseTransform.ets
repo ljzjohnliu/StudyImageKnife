@@ -17,7 +17,7 @@ import {AsyncTransform} from "../transform/AsyncTransform"
 import {RequestOption}  from "../../imageknife/RequestOption"
 
 export interface BaseTransform<T> {
-  //实现类 返回作为key生成的一部分
+  // 实现类 返回作为key生成的一部分
   getName(): string;
 
   transform(value: ArrayBuffer, request: RequestOption, func: AsyncTransform<T>);

@@ -78,7 +78,7 @@ export class ImageKnife {
     this.pausedMaps = new EasyLinkedHashMap();
 
     // 构造方法传入size 为保存文件个数
-    this.memoryCache = new MemoryLruCache(100);
+    this.memoryCache = new MemoryLruCache(100,100*1024*1024);
 
     // 创建disk缓存 传入的size 为多少比特 比如20KB 传入20*1024
     this.diskMemoryCache = DiskLruCache.create(ImageKnifeGlobal.getInstance().getHapContext());
@@ -174,12 +174,13 @@ export class ImageKnife {
     return new CompressBuilder();
   }
 
-  // 替代原来的LruCache
-  public replaceLruCache(size: number) {
+
+  // 设置缓存张数，缓存大小，单位字节
+  public setLruCacheSize(size: number,memory:number) {
     if (this.memoryCache.map.size() <= 0) {
-      this.memoryCache = new MemoryLruCache(size);
+      this.memoryCache = new MemoryLruCache(size,memory);
     } else {
-      let newLruCache = new MemoryLruCache(size);
+      let newLruCache = new MemoryLruCache(size,memory);
       this.memoryCache.foreachLruCache((value: ImageKnifeData, key: string, map: Object) => {
         newLruCache.put(key, value);
       })
@@ -330,12 +331,6 @@ export class ImageKnife {
 
     let signature = request.signature;
 
-    if (signature != undefined) {
-      console.log("唯一标识：" + signature.getKey())
-    }
-
-
-
     cacheKey = factories.generateMemoryCacheKey(loadKey,size,transformed,dontAnimateFlag,signature);
 
     // 生成磁盘缓存变换后数据key 变换后数据保存在磁盘
@@ -365,9 +360,9 @@ export class ImageKnife {
 
   // 执行相同key的pending队列请求
   private keyEqualPendingToRun(nextPending: RequestOption) {
-    // let nextPending = this.pendingRequest.splice(index, 1)[0];
-    // this.runningRequest.push(nextPending)
-    // RequestManager.execute((nextPending as RequestOption), this.memoryCache, this.diskMemoryCache, this.dataFetch, this.resourceFetch)
+
+
+
 
     this.pendingMaps.remove(nextPending.uuid)
     this.runningMaps.put(nextPending.uuid, nextPending);
@@ -450,11 +445,11 @@ export class ImageKnife {
         if (hasRunningRequest) {
           this.pendingMaps.put(request.uuid, request);
 
-          // this.pendingRequest.push(request);
+
         } else {
           this.runningMaps.put(request.uuid, request)
 
-          // this.runningRequest.push(request);
+
           // 不存在相同key的 任务可以并行
           RequestManager.execute(request, this.memoryCache, this.diskMemoryCache, this.dataFetch, this.resourceFetch)
         }
@@ -521,7 +516,7 @@ export class ImageKnife {
       } else {
       let res = request.loadSrc as Resource;
       if (typeof res.id != 'undefined' && typeof res.type != 'undefined') {
-        //进入三级缓存模型  本地资源不参与磁盘缓存
+        // 进入三级缓存模型  本地资源不参与磁盘缓存
         let none = new NONE();
         request.diskCacheStrategy(none);
         this.loadResources(request);

@@ -36,7 +36,7 @@ export struct ImageKnifeComponent {
   private currentWidth: number = 0
   private currentHeight: number = 0
   // 定时器id
-  private gifTimerId: number = 0
+  private gifTimerId: number = -1
   // 完整gif播放时间
   private gifLoopDuration: number = 0
   private startGifLoopTime: number = 0
@@ -84,6 +84,11 @@ export struct ImageKnifeComponent {
   private onReadyNextData:ImageKnifeData|number|undefined = undefined
 
   private  detachFromLayout:DetachFromLayout|undefined = undefined;
+
+  private detachFromLayoutGIF :DetachFromLayout|undefined = undefined;
+
+  private detachFromLayoutPixelMap :DetachFromLayout|undefined = undefined;
+
 
   build() {
     Canvas(this.context)
@@ -440,7 +445,7 @@ export struct ImageKnifeComponent {
     LogUtil.log('ImageKnifeComponent default drawPlaceholder start!')
 
     data.drawPixelMap?.imagePixelMap?.getImageInfo().then((imageInfo) => {
-      LogUtil.log('ImageKnifeComponent imageinfo widht =' + imageInfo.size.width + ' height=' + imageInfo.size.height)
+      LogUtil.log('ImageKnifeComponent imageinfo width =' + imageInfo.size.width + ' height=' + imageInfo.size.height)
       let scaleType = (typeof imageKnifeOption.placeholderScaleType == 'number') ? imageKnifeOption.placeholderScaleType : ScaleType.FIT_CENTER
       context.save();
       context.clearRect(0, 0, compWidth, compHeight)
@@ -495,7 +500,7 @@ export struct ImageKnifeComponent {
     LogUtil.log('ImageKnifeComponent default drawThumbSizeMultiplier start!')
 
     data.drawPixelMap?.imagePixelMap?.getImageInfo().then((imageInfo) => {
-      LogUtil.log('ImageKnifeComponent imageinfo widht =' + imageInfo.size.width + ' height=' + imageInfo.size.height)
+      LogUtil.log('ImageKnifeComponent imageinfo width =' + imageInfo.size.width + ' height=' + imageInfo.size.height)
       let scaleType = (typeof imageKnifeOption.thumbSizeMultiplierScaleType == 'number') ? imageKnifeOption.thumbSizeMultiplierScaleType : ScaleType.FIT_CENTER
       context.save();
       context.clearRect(0, 0, compWidth, compHeight)
@@ -508,7 +513,6 @@ export struct ImageKnifeComponent {
   drawMainSource(context: CanvasRenderingContext2D, data: ImageKnifeData, imageKnifeOption: ImageKnifeOption, compWidth: number, compHeight: number, setGifTimeId?: (timeId: number) => void) {
     LogUtil.log('ImageKnifeComponent default drawMainSource start!')
     if (data.isPixelMap()) {
-
       data.drawPixelMap?.imagePixelMap?.getImageInfo().then((imageInfo) => {
         let scaleType = (typeof imageKnifeOption.mainScaleType == 'number') ? imageKnifeOption.mainScaleType : ScaleType.FIT_CENTER
         LogUtil.log('ImageKnifeComponent imageinfo width =' + imageInfo.size.width + ' height=' + imageInfo.size.height + 'scaleType=' + scaleType)
@@ -518,8 +522,16 @@ export struct ImageKnifeComponent {
         context.restore();
         LogUtil.log('ImageKnifeComponent default drawMainSource end!')
       })
+      if (data.drawPixelMap != undefined) {
+        data.drawPixelMap.isShowOnComponent = true;
+        this.detachFromLayoutPixelMap = data.drawPixelMap.detachFromLayoutPixelMap;
+      }
     } else if (data.isGIFFrame()) {
-      this.drawGIFFrame(context, data, imageKnifeOption, compWidth, compHeight, setGifTimeId)
+      if(data.drawGIFFrame != undefined) {
+        data.drawGIFFrame.isShowOnComponent = true
+        this.detachFromLayoutGIF = data.drawGIFFrame.detachFromLayoutGIF
+        this.drawGIFFrame(context, data, imageKnifeOption, compWidth, compHeight, setGifTimeId)
+      }
     }
   }
 
@@ -541,7 +553,7 @@ export struct ImageKnifeComponent {
     LogUtil.log('ImageKnifeComponent default drawErrorholder start!')
 
     data.drawPixelMap?.imagePixelMap?.getImageInfo().then((imageInfo) => {
-      LogUtil.log('ImageKnifeComponent imageinfo widht =' + imageInfo.size.width + ' height=' + imageInfo.size.height)
+      LogUtil.log('ImageKnifeComponent imageinfo width =' + imageInfo.size.width + ' height=' + imageInfo.size.height)
       let scaleType = (typeof imageKnifeOption.errorholderSrcScaleType == 'number') ? imageKnifeOption.errorholderSrcScaleType : ScaleType.FIT_CENTER
       context.save();
       context.clearRect(0, 0, compWidth, compHeight)
@@ -604,7 +616,12 @@ export struct ImageKnifeComponent {
     if(this.detachFromLayout != undefined){
       this.detachFromLayout.detach();
     }
-
+    if(this.detachFromLayoutGIF != undefined){
+      this.detachFromLayoutGIF.detach();
+    }
+    if (this.detachFromLayoutPixelMap != undefined) {
+      this.detachFromLayoutPixelMap.detach();
+    }
     this.resetGifData();
   }
 
@@ -750,23 +767,7 @@ export struct ImageKnifeComponent {
     LogUtil.log('ImageKnifeComponent canvasDrawPixelMap index=' + index)
     let frame = frames[index];
     let pixelmap = frame['drawPixelMap']
-    let disposal = 0
-    // disposal value is from preFrame
-    if (index >= 1) {
-      let preFrame = frames[index-1]
-      disposal = preFrame.disposalType
-
-      if (disposal === FrameDisposalType.DISPOSE_RestoreBackground) {
-        let left:number = preFrame.dims.left;
-        let top:number = preFrame.dims.top
-        context.clearRect(left, top, compWidth, compHeight);
-      }
-    } else {
-      if (disposal === FrameDisposalType.DISPOSE_RestoreBackground) {
-        context.clearRect(0, 0, compWidth, compHeight)
-      }
-    }
-
+    context.clearRect(0, 0, compWidth, compHeight)
     let scaleType = (typeof this.imageKnifeOption.mainScaleType == 'number') ? this.imageKnifeOption.mainScaleType : ScaleType.FIT_CENTER
     context.save();
     let frameW = frames[0].dims.left + frames[0].dims.width

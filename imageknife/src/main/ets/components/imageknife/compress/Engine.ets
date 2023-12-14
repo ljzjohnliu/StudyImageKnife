@@ -29,7 +29,7 @@ export class Engine {
   private mPredicate: CompressionPredicate
   private mCompressAdapter: CompressAdapter
   private mPath: string
-  private _mLeastCompressSize: number; //KB
+  private _mLeastCompressSize: number; // KB
 
   constructor(compressAdapter: CompressAdapter,
               outPath: string,

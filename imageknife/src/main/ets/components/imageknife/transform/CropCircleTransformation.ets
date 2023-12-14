@@ -118,7 +118,7 @@ export class CropCircleTransformation implements BaseTransform<PixelMap> {
         if (this.isContainsCircle(w, h)) {
           continue;
         }
-        //针对的点
+        // 针对的点
         let index = (h * width + w) * 4;
         dataArray[index] = 0;
         dataArray[index+1] = 0;

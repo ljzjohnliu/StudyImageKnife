@@ -27,13 +27,13 @@ export class LoadDataShareFileClient implements IDataFetch {
             onComplete(buf);
             fs.close(file.fd);
           }).catch((err:BusinessError) => {
-            onError('LoadDataShareFileClient fs.read err happend uri=' + request.loadSrc + " err.msg=" + err?.message + " err.code=" + err?.code)
+            onError('LoadDataShareFileClient fs.read err happened uri=' + request.loadSrc + " err.msg=" + err?.message + " err.code=" + err?.code)
           })
         }).catch((err:BusinessError) => {
-          onError('LoadDataShareFileClient fs.stat err happend uri=' + request.loadSrc + " err.msg=" + err?.message + " err.code=" + err?.code)
+          onError('LoadDataShareFileClient fs.stat err happened uri=' + request.loadSrc + " err.msg=" + err?.message + " err.code=" + err?.code)
         })
       }).catch((err:BusinessError) => {
-        onError('LoadDataShareFileClient fs.open err happend uri=' + request.loadSrc + " err.msg=" + err?.message + " err.code=" + err?.code)
+        onError('LoadDataShareFileClient fs.open err happened uri=' + request.loadSrc + " err.msg=" + err?.message + " err.code=" + err?.code)
       })
     }
   }

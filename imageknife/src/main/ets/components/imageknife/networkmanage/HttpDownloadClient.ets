@@ -68,17 +68,16 @@ export class HttpDownloadClient implements IDataFetch {
           method: http.RequestMethod.GET,
           expectDataType: http.HttpDataType.ARRAY_BUFFER,
           connectTimeout: 60000, // 可选 默认60000ms
-          readTimeout: 0, //可选, 默认为60000ms
+          readTimeout: 0, // 可选, 默认为60000ms
           usingProtocol: http.HttpProtocol.HTTP1_1, // 可选,协议类型默认值由系统自动指定
-        },
-        (err: BusinessError, data: number) => {
-          if (!err && data == 200) {
-
-          } else {
-            onError(`HttpDownloadClient has error, http code = ${data}`)
-          }
         }
-      )
+      ).then((data)=>{
+        if(data == 200) {
+
+        } else {
+          onError(`HttpDownloadClient has error, http code = ${data}`)
+        }
+      })
     } catch (err) {
       onError('HttpDownloadClient catch err request uuid ='+request.uuid)
     }

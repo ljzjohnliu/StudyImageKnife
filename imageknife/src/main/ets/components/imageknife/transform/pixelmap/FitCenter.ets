@@ -31,12 +31,6 @@ export class FitCenter implements BaseTransform<PixelMap> {
       }
       return;
     }
-    TransformUtils.fitCenter(buf, request.size.width, request.size.height, {asyncTransform:(error:BusinessError|string, data:Promise<PixelMap>|null) => {
-      data?.then(p => {
-        func?.asyncTransform('', p);
-      }).catch((e:BusinessError) => {
-        func?.asyncTransform(Constants.PROJECT_TAG + ';FitCenter error:' + e, null);
-      })
-    }})
+    TransformUtils.fitCenter(buf, request.size.width, request.size.height, func)
   }
 }

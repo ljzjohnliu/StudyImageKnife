@@ -18,5 +18,6 @@ import common from '@ohos.app.ability.common';
 
 // 本地资源解析抽象接口
 export interface IResourceFetch<T> {
-  loadResource:(context:common.UIAbilityContext ,res: Resource, onCompleteFunction:(value:T)=>void | PromiseLike<T>, onErrorFunction:(reason?:BusinessError|string)=>void)=>void;
+  loadResource:(context:common.UIAbilityContext ,res: Resource, onCompleteFunction:(value:T)=>void | PromiseLike<T>,
+                onErrorFunction:(reason?:BusinessError|string)=>void)=>void;
 }

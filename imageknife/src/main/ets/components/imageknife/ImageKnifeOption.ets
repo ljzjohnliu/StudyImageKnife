@@ -95,7 +95,7 @@ export class ImageKnifeOption {
   displayProgress?: boolean;
 
 
-  //自定义缓存关键字
+  // 自定义缓存关键字
   signature?: ObjectKey;
 
   // 重试图层 可点击
