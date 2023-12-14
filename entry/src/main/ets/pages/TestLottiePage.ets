@@ -25,6 +25,31 @@ struct TestLottiePage {
           .aspectRatio(CommonConstants.ASPECT_RATIO_176)
           .backgroundImage($r('app.media.canvasBg'))
           .backgroundImageSize(ImageSize.Cover)
+          .onAppear(()=>{
+            if (this.animateItem !== null) {
+              this.animateItem.destroy();
+              this.animateItem = null;
+            }
+            this.canvasTitle = $r('app.string.outer_button_load');
+            this.animateItem = lottie.loadAnimation({
+              container: this.renderingContext,
+              renderer: 'canvas',
+              loop: 10,
+              autoplay: true,
+              name: this.animateName,
+              path: 'common/lottie/data.json'
+            });
+            console.log("lottie DOMLoaded=========this.animateItem = " + this.animateItem);
+            if (this.animateItem != null) {
+              this.animateItem.addEventListener('DOMLoaded', (args: Object): void => {
+                console.log("lottie DOMLoaded=========");
+
+              });
+              this.animateItem.addEventListener('segmentStart', (args: Object): void => {
+                console.log("lottie segmentStart=========111");
+              });
+            }
+          })
           .onDisAppear(() => {
             lottie.destroy(this.animateName);
           })

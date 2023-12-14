@@ -3,7 +3,8 @@ import hilog from '@ohos.hilog';
 import UIAbility from '@ohos.app.ability.UIAbility';
 import Want from '@ohos.app.ability.Want';
 import window from '@ohos.window';
-import { ImageKnife } from '@ohos/imageknife'
+import { CustomEngineKeyImpl } from './CustomEngineKeyImpl'
+import { ImageKnife,ImageKnifeGlobal,ImageKnifeDrawFactory } from '@ohos/imageknife'
 
 export default class EntryAbility extends UIAbility {
   onCreate(want: Want, launchParam: AbilityConstant.LaunchParam): void {
@@ -18,7 +19,8 @@ export default class EntryAbility extends UIAbility {
     // Main window is created, set main page for this ability
     hilog.info(0x0000, 'testTag', '%{public}s', 'Ability onWindowStageCreate');
 
-    windowStage.loadContent('pages/TestLottiePage', (err, data) => {
+    // windowStage.loadContent('pages/TestLottiePage', (err, data) => {
+    windowStage.loadContent('pages/TestSimpleOptionPage', (err, data) => {
       if (err.code) {
         hilog.error(0x0000, 'testTag', 'Failed to load the content. Cause: %{public}s', JSON.stringify(err) ?? '');
         return;
@@ -26,9 +28,15 @@ export default class EntryAbility extends UIAbility {
       hilog.info(0x0000, 'testTag', 'Succeeded in loading the content. Data: %{public}s', JSON.stringify(data) ?? '');
     });
 
+    //初始化方式1:
     // 初始化全局ImageKnife
     ImageKnife.with(this.context);
     // 后续访问ImageKnife请通过:ImageKnifeGlobal.getInstance().getImageKnife()方式
+    let imageKnife: ImageKnife|undefined = ImageKnifeGlobal.getInstance().getImageKnife()
+    if (imageKnife != undefined) {
+      imageKnife.setDefaultLifeCycle(ImageKnifeDrawFactory.createProgressLifeCycle("#10a5ff", 0.5))
+      imageKnife.setEngineKeyImpl(new CustomEngineKeyImpl())
+    }
   }
 
   onWindowStageDestroy(): void {
