@@ -6,7 +6,6 @@
     },
     "sourceOption": {
       "workers": [
-        './src/main/ets/workers/GifLoadWorker.ts'
       ]
     }
   },

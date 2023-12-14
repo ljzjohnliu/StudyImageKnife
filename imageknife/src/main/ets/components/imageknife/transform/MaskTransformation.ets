@@ -78,7 +78,7 @@ export class MaskTransformation implements BaseTransform<PixelMap> {
     }
     imageSource.createPixelMap(options)
       .then(data => {
-        this.openInternal(data, targetWidth, targetHeight, func)
+        this.openInternal(request, data, targetWidth, targetHeight, func)
         imageSource.release()
       })
       .catch((e:BusinessError )=> {
@@ -87,13 +87,13 @@ export class MaskTransformation implements BaseTransform<PixelMap> {
       })
   }
 
-  private openInternal(bitmap: PixelMap, width: number, height: number, func?: AsyncTransform<PixelMap>) {
+  private openInternal(request: RequestOption,bitmap: PixelMap, width: number, height: number, func?: AsyncTransform<PixelMap>) {
     if (!this._mResourceData) {
       if(func != undefined){
         func.asyncTransform("MaskTransformation resource is empty", null)
       }
     }
-    let context = (ImageKnifeGlobal.getInstance().getHapContext() as common.UIAbilityContext)
+    let context = (request.getModuleContext() as common.UIAbilityContext)
     if(context != undefined){
       let resourceManager = context.resourceManager as resourceManager.ResourceManager
       if(resourceManager != undefined && this._mResourceData != undefined)

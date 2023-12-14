@@ -19,14 +19,14 @@ import { Base64 } from '../../cache/Base64'
 import { BusinessError } from '@ohos.base'
 import resourceManager from '@ohos.resourceManager';
 import { ImageKnifeGlobal } from '../ImageKnifeGlobal';
+import common from '@ohos.app.ability.common'
 
 export class ParseResClientBase64 implements IResourceFetch<ArrayBuffer> {
-  loadResource(res: Resource, onCompleteFunction: (value: ArrayBuffer) => void | PromiseLike<ArrayBuffer>, onErrorFunction: (reason?: BusinessError | string) => void) {
+  loadResource(context:common.UIAbilityContext,res: Resource, onCompleteFunction: (value: ArrayBuffer) => void | PromiseLike<ArrayBuffer>, onErrorFunction: (reason?: BusinessError | string) => void) {
     let resId = res.id;
     let resType = res.type;
     if (resType == ResourceTypeEts.MEDIA) {
-      ((ImageKnifeGlobal.getInstance()
-        .getHapContext() as Record<string, Object>).resourceManager as resourceManager.ResourceManager)
+      (context.resourceManager as resourceManager.ResourceManager)
         .getMediaContentBase64(resId)
         .then(data => {
           let matchReg = ';base64,';

@@ -43,7 +43,7 @@ export class NetworkDownloadClient implements IDataFetch {
       enableMetered: true,
     };
 
-    loadRequest.downloadFile( (ImageKnifeGlobal.getInstance().getHapContext() as common.BaseContext ), downloadConfig).then((downloadTask:loadRequest.DownloadTask) => {
+    loadRequest.downloadFile( (request.getModuleContext()  as common.BaseContext ), downloadConfig).then((downloadTask:loadRequest.DownloadTask) => {
       if (downloadTask) {
        let loadTask:loadRequest.DownloadTask | null = downloadTask;
 

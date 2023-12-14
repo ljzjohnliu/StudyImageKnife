@@ -16,7 +16,7 @@ import {ImageKnife} from './ImageKnife'
 import { DiskStrategy } from "../cache/diskstrategy/DiskStrategy"
 import  { AsyncCallback } from "../imageknife/interface/AsyncCallback"
 import  { AsyncSuccess } from "../imageknife/interface/AsyncSuccess"
-import     { IAllCacheInfoCallback } from "../imageknife/interface/IAllCacheInfoCallback"
+import  { IAllCacheInfoCallback } from "../imageknife/interface/IAllCacheInfoCallback"
 import { AUTOMATIC } from "../cache/diskstrategy/enum/AUTOMATIC"
 import { BaseTransform } from "../imageknife/transform/BaseTransform"
 import { RotateImageTransformation } from "../imageknife/transform/RotateImageTransformation"
@@ -49,6 +49,7 @@ import { LogUtil } from '../imageknife/utils/LogUtil'
 import { ImageKnifeGlobal } from './ImageKnifeGlobal'
 import { BusinessError } from '@ohos.base'
 import { ObjectKey } from './ObjectKey'
+import common from '@ohos.app.ability.common'
 
 export interface Size {
   width: number,
@@ -130,12 +131,19 @@ export class RequestOption {
       }
     }
   }
-
+  // module资源的需要当前的module context
+  moduleContext?:common.UIAbilityContext = undefined;
   constructor() {
     // 初始化全局监听
     this.requestListeners = new Array();
     // 初始化唯一标识,可以用这个标识找到ImageKnife中的对象
     this.uuid = this.generateUUID();
+
+
+   let ctx = ImageKnifeGlobal.getInstance().getHapContext() as common.UIAbilityContext
+    if(ctx != undefined){
+      this.moduleContext = ctx;
+    }
   }
 
   generateUUID(): string {
@@ -147,7 +155,13 @@ export class RequestOption {
     });
     return uuid;
   }
+  setModuleContext(moduleCtx:common.UIAbilityContext){
+    this.moduleContext = moduleCtx;
+  }
 
+  getModuleContext():common.UIAbilityContext | undefined{
+    return this.moduleContext;
+  }
   /**
    * set image Component size
    */

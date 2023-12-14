@@ -25,6 +25,7 @@ import { ScaleType } from '../imageknife/ImageKnifeComponent'
 import { rgbColor } from './transform/CropCircleWithBorderTransformation'
 import { RoundCorner } from './transform/RoundedCornersTransformation'
 import { ObjectKey } from './ObjectKey'
+import common from '@ohos.app.ability.common'
 
 export interface CropCircleWithBorder{
   border: number,
@@ -125,7 +126,7 @@ export class ImageKnifeOption {
   allCacheInfoCallback?: IAllCacheInfoCallback;
 
 
-
+  context?: common.UIAbilityContext;
 //  sizeAnimate?: AnimateParam 由业务自定义不再支持
 
   constructor() {

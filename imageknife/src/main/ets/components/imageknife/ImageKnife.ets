@@ -211,52 +211,51 @@ export class ImageKnife {
     return this.parseSource(request);
   }
 
-  // // 暂停所有请求
-  // async pauseRequests(): Promise<void> {
-  //   await this.mutex.lock(async () => {
-  //     this.isPaused = true;
-  //
-  //     // 将未删除的所有request [run pend] 放入 [pause]
-  //     this.pausedMaps.clear()
-  //     console.log('dodo pauseRequests start1 pausedMaps size=' + this.pausedMaps.size() + ' runMaps Size=' + this.runningMaps.size() + '  pendMaps Size=' + this.pendingMaps.size())
-  //
-  //     // 将run存入pause
-  //     let runNode = this.runningMaps.getHead();
-  //     while (runNode) {
-  //       let request = runNode.value;
-  //       this.pausedMaps.put(request.uuid, request)
-  //       runNode = runNode.next;
-  //     }
-  //     this.runningMaps.clear();
-  //     console.log('dodo pauseRequests start2 pausedMaps size=' + this.pausedMaps.size() + ' runMaps Size=' + this.runningMaps.size() + '  pendMaps Size=' + this.pendingMaps.size())
-  //
-  //     let pendNode = this.pendingMaps.getHead();
-  //     while (pendNode) {
-  //       let request = pendNode.value;
-  //       this.pausedMaps.put(request.uuid, request)
-  //       pendNode = pendNode.next
-  //     }
-  //     this.pendingMaps.clear()
-  //     console.log('dodo pauseRequests start3 pausedMaps size=' + this.pausedMaps.size() + ' runMaps Size=' + this.runningMaps.size() + '  pendMaps Size=' + this.pendingMaps.size())
-  //   })
-  // }
-  //
-  // // 恢复所有被暂停的请求
-  // async resumeRequests(): Promise<void> {
-  //   await this.mutex.lock(async () => {
-  //     this.isPaused = false;
-  //     console.log('dodo resumeRequest start1 pausedMaps size=' + this.pausedMaps.size() + ' runMaps Size=' + this.runningMaps.size() + '  pendMaps Size=' + this.pendingMaps.size())
-  //     // 重启了之后需要把paused 里面的所有request重新发送
-  //     let headNode = this.pausedMaps.getHead();
-  //     while (headNode) {
-  //       let request = headNode.value
-  //       this.loadCacheManager(request)
-  //       headNode = headNode.next
-  //     }
-  //     this.pausedMaps.clear()
-  //     console.log('dodo resumeRequest start1 pausedMaps size=' + this.pausedMaps.size() + ' runMaps Size=' + this.runningMaps.size() + '  pendMaps Size=' + this.pendingMaps.size())
-  //   })
-  // }
+  // 暂停所有请求
+  async pauseRequests(): Promise<void> {
+    await this.mutex.lock(async () => {
+      this.isPaused = true;
+
+      // 将未删除的所有request [run pend] 放入 [pause]
+      LogUtil.log('dodo pauseRequests start1 pausedMaps size=' + this.pausedMaps.size() + ' runMaps Size=' + this.runningMaps.size() + '  pendMaps Size=' + this.pendingMaps.size())
+
+      // 将run存入pause
+      let runNode = this.runningMaps.getHead();
+      while (runNode) {
+        let request = runNode.value;
+        this.pausedMaps.put(request.uuid, request)
+        runNode = runNode.next;
+      }
+      this.runningMaps.clear();
+      LogUtil.log('dodo pauseRequests start2 pausedMaps size=' + this.pausedMaps.size() + ' runMaps Size=' + this.runningMaps.size() + '  pendMaps Size=' + this.pendingMaps.size())
+
+      let pendNode = this.pendingMaps.getHead();
+      while (pendNode) {
+        let request = pendNode.value;
+        this.pausedMaps.put(request.uuid, request)
+        pendNode = pendNode.next
+      }
+      this.pendingMaps.clear()
+      LogUtil.log('dodo pauseRequests start3 pausedMaps size=' + this.pausedMaps.size() + ' runMaps Size=' + this.runningMaps.size() + '  pendMaps Size=' + this.pendingMaps.size())
+    })
+  }
+
+  // 恢复所有被暂停的请求
+  async resumeRequests(): Promise<void> {
+    await this.mutex.lock(async () => {
+      this.isPaused = false;
+      LogUtil.log('dodo resumeRequest start1 pausedMaps size=' + this.pausedMaps.size() + ' runMaps Size=' + this.runningMaps.size() + '  pendMaps Size=' + this.pendingMaps.size())
+      // 重启了之后需要把paused 里面的所有request重新发送
+      let headNode = this.pausedMaps.getHead();
+      while (headNode) {
+        let request = headNode.value
+        this.loadCacheManager(request)
+        headNode = headNode.next
+      }
+      this.pausedMaps.clear()
+      LogUtil.log('dodo resumeRequest start1 pausedMaps size=' + this.pausedMaps.size() + ' runMaps Size=' + this.runningMaps.size() + '  pendMaps Size=' + this.pendingMaps.size())
+    })
+  }
 
   // 删除 请求
   remove(uuid: string) {

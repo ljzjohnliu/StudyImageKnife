@@ -20,11 +20,11 @@ import { ImageKnifeGlobal } from '../ImageKnifeGlobal';
 import { BusinessError } from '@ohos.base'
 import common from '@ohos.app.ability.common';
 export class ParseResClient implements IResourceFetch<ArrayBuffer> {
-  loadResource(res: Resource, onCompleteFunction:(value:ArrayBuffer)=>void | PromiseLike<ArrayBuffer>, onErrorFunction:(reason?:BusinessError|string)=>void) {
+  loadResource(context:common.UIAbilityContext,res: Resource, onCompleteFunction:(value:ArrayBuffer)=>void | PromiseLike<ArrayBuffer>, onErrorFunction:(reason?:BusinessError|string)=>void) {
     let resId = res.id;
     let resType = res.type;
     if (resType == ResourceTypeEts.MEDIA) {
-      ((ImageKnifeGlobal.getInstance().getHapContext() as common.UIAbilityContext).resourceManager as resourceManager.ResourceManager)
+      (context.resourceManager as resourceManager.ResourceManager)
         .getMediaContent(resId)
         .then(data => {
           let arrayBuffer = this.typedArrayToBuffer(data);

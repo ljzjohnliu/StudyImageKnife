@@ -241,7 +241,13 @@ export class RequestManager {
         }
       }
     }
-    this.mIResourceFetch.loadResource(request.loadSrc as Resource, success, onError);
+    let ctx = request.getModuleContext();
+    if(ctx!=undefined){
+      this.mIResourceFetch.loadResource(ctx,request.loadSrc as Resource, success, onError);
+    }else{
+    onError('RequestManager loadSourceFormNative moduleContext is undefined! please check it')
+    }
+
   }
   // 加载磁盘缓存 原图
   private loadDiskFromSource(request: RequestOption, onComplete:(value:ImageKnifeData)=>void|PromiseLike<ImageKnifeData>, onError:(reason?:BusinessError|string)=>void) {
@@ -323,6 +329,13 @@ export class RequestManager {
             width: Math.round(this.options.thumbSizeMultiplier * this.options.size.width),
             height: Math.round(this.options.thumbSizeMultiplier * this.options.size.height)
           })
+          let ctx = this.options.getModuleContext()
+          if(ctx != undefined){
+            thumbOption.setModuleContext(ctx)
+          }else{
+            onError('RequestManager parseDiskFile2PixelMap moduleContext is undefined, please check it!')
+            return
+          }
           let thumbCallback = this.options.thumbholderOnComplete;
           let thumbError = this.options.thumbholderOnError;
           this.options.transformations[0].transform(source, thumbOption,{asyncTransform: (error:BusinessError|string, pixelMap: PixelMap|null) => {
@@ -552,6 +565,13 @@ export class RequestManager {
 
   thumbnailProcess(source:ArrayBuffer, filetype:string, onComplete:(value:ImageKnifeData)=>void|PromiseLike<ImageKnifeData>, onError:(reason?:BusinessError|string)=>void){
     let thumbOption = new RequestOption();
+    let ctx = this.options.getModuleContext()
+    if(ctx != undefined){
+      thumbOption.setModuleContext(ctx)
+    }else{
+      onError('RequestManager thumbnailProcess moduleContext is undefined, please check it!')
+      return
+    }
     thumbOption.setImageViewSize({
       width: Math.round(this.options.thumbSizeMultiplier * this.options.size.width),
       height: Math.round(this.options.thumbSizeMultiplier * this.options.size.height)

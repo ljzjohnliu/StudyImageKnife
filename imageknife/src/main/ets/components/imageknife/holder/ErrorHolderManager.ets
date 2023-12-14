@@ -77,7 +77,12 @@ export class ErrorHolderManager<T> {
             onError("ErrorHolderManager 文件类型为null,请检查数据源arraybuffer")
           }
         }
-        resourceFetch.loadResource(res, suc, onError)
+        let ctx = this.options.getModuleContext();
+        if(ctx != undefined){
+          resourceFetch.loadResource(ctx,res, suc, onError)
+        }else{
+          onError("ErrorHolderManager moduleContext is undefined,please check it!")
+        }
       } else {
         onError("ErrorHolderManager 输入参数有问题!")
       }

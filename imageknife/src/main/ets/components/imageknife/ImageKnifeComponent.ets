@@ -22,6 +22,7 @@ import { GIFFrame } from '../imageknife/utils/gif/GIFFrame'
 import { IDrawLifeCycle } from '../imageknife/interface/IDrawLifeCycle'
 import { LogUtil } from '../imageknife/utils/LogUtil'
 import { BusinessError } from '@ohos.base'
+import common from '@ohos.app.ability.common'
 
 @Component
 export struct ImageKnifeComponent {
@@ -260,6 +261,14 @@ export struct ImageKnifeComponent {
     }
   }
 
+  configHspContext(request: RequestOption){
+    if(this.imageKnifeOption.context != undefined){
+      request.setModuleContext(this.imageKnifeOption.context)
+    }else{
+      request.setModuleContext(getContext(this) as common.UIAbilityContext)
+    }
+  }
+
   configRenderGpu(request: RequestOption) {
     if (this.imageKnifeOption.enableGpu) {
       request.enableGPU()
@@ -285,6 +294,7 @@ export struct ImageKnifeComponent {
     this.configNecessary(request);
     this.configCacheStrategy(request);
     this.configDisplay(request);
+    this.configHspContext(request)
     this.configRenderGpu(request);
     if(ImageKnifeGlobal.getInstance().getImageKnife()!=undefined) {
       ImageKnifeGlobal.getInstance().getImageKnife()?.call(request);

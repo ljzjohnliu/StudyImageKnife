@@ -24,8 +24,6 @@ struct Index {
     loadSrc: this.jpgUrl
   }
 
-  // 加载GIF动图
-  private globalGifWorker?:worker.ThreadWorker = undefined
   @State gifOption1: ImageKnifeOption = {
     loadSrc: $r('app.media.icon_loading'),
     placeholderSrc: $r('app.media.icon_loading'),
@@ -109,20 +107,8 @@ struct Index {
   }
 
   aboutToAppear() {
-    this.globalGifWorker = new worker.ThreadWorker('entry/ets/workers/GifLoadWorker.ts', {
-      type: 'classic',
-      name: 'ImageKnifeParserGif'
-    })
-    let imageKnife: ImageKnife|undefined = ImageKnifeGlobal.getInstance().getImageKnife()
-    if (imageKnife != undefined) {
-      imageKnife.setGifWorker(this.globalGifWorker)
-    }
   }
 
   aboutToDisappear() {
-    //页面销毁，销毁worker
-    if (this.globalGifWorker) {
-      this.globalGifWorker.terminate()
-    }
   }
 }

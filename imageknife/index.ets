@@ -118,8 +118,7 @@ export { SVGParseImpl } from './src/main/ets/components/imageknife/utils/svg/SVG
  */
 export { GIFParseImpl } from './src/main/ets/components/imageknife/utils/gif/GIFParseImpl'
 export { GIFFrame } from './src/main/ets/components/imageknife/utils/gif/GIFFrame'
-// 能力增强worker 解析GIF数据
-export { gifHandler } from './GifWorker'
+
 
 // 自定义组件新增
 // 自定义组件绘制生命周期

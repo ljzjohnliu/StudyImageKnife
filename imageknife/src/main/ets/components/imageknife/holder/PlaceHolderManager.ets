@@ -73,7 +73,12 @@ export class PlaceHolderManager<T> {
               break;
           }
         }
-        resourceFetch.loadResource(res, suc, onError)
+        let ctx = this.options.getModuleContext();
+        if(ctx != undefined){
+          resourceFetch.loadResource(ctx,res, suc, onError)
+        }else{
+          onError("PlaceHolderManager moduleContext is undefined,please check it!")
+        }
       } else {
         onError("PlaceHolderManager 输入参数有问题!")
       }
