@@ -16,7 +16,7 @@ struct Index {
 
   //加载本地图片
   @State option: ImageKnifeOption = {
-    loadSrc: $r('app.media.icon')
+    loadSrc: $r('app.media.test')
   }
   // 加载网络静图
   @State jpgUrl: string = 'https://p6-tt.byteimg.com/tos-cn-i-0000/7bc94ac9f7574a35b5a3fc5078172ddc~640x0.jpeg'
@@ -76,12 +76,29 @@ struct Index {
           .fontSize(30)
           .fontWeight(FontWeight.Bold)
 
-        Flex({direction:FlexDirection.Row, alignItems: ItemAlign.Center, justifyContent:FlexAlign.Center}) {
+        Flex({direction:FlexDirection.Column, alignItems: ItemAlign.Center, justifyContent:FlexAlign.Center}) {
           ImageKnifeComponent({imageKnifeOption: this.option})
+            .borderRadius(80)
+            // .clip(true)
             .width(100)
             .height(100)
+          Button('加载不同格式的网络图片')
+            .borderRadius(800)
+            .clip(true)
+            .onClick(() => {
+              this.option2 = {
+                // loadSrc: 'https://p3-sdkdemo-images.byteimg.com/tos-cn-i-q5j7jlkqqz/16.jpg~tplv-q5j7jlkqqz-image.image',//jpg
+                // loadSrc: 'http://p3-sdkdemo-images.byteimg.com/tos-cn-i-q5j7jlkqqz/1.png~tplv-q5j7jlkqqz-image.image',//png
+                // loadSrc: 'http://p3-sdkdemo-images.byteimg.com/tos-cn-i-q5j7jlkqqz/2.webp~tplv-q5j7jlkqqz-image.image',//webp
+                loadSrc: 'http://p3-sdkdemo-images.byteimg.com/tos-cn-i-q5j7jlkqqz/3.heic~tplv-q5j7jlkqqz-image.image',//heic
+                // placeholderSrc: $r('app.media.icon_loading'),
+                // errorholderSrc: $r('app.media.icon_failed'),
+                displayProgress: true
+              }
+            }).margin({top: 5, left: 3})
 
           ImageKnifeComponent({imageKnifeOption: this.option2})
+            .borderRadius(30)
             .width(200)
             .height(200)
         }
@@ -98,7 +115,7 @@ struct Index {
                 displayProgress: true
               }
             }).margin({top: 5, left: 3})
-          ImageKnifeComponent({imageKnifeOption: this.gifOption1}).width(200).height(200)
+          // ImageKnifeComponent({imageKnifeOption: this.gifOption1}).width(200).height(200)
         }.width("100%").backgroundColor(Color.Pink)
       }
       .width('100%')

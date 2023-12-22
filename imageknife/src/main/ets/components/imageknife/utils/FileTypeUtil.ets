@@ -25,6 +25,8 @@ export class FileTypeUtil {
     'svg': [new Uint8Array([0x3C, 0x3F, 0x78, 0x6D, 0x6C])],
     'webp': [new Uint8Array([0x52, 0x49, 0x46, 0x46])],
     'tiff': [new Uint8Array([0x49, 0x20, 0x49]), new Uint8Array([0x49, 0x49, 0x2A, 0x00]), new Uint8Array([0x4D, 0x4D, 0x00, 0x2A]), new Uint8Array([0x4D, 0x4D, 0x00, 0x2B])],
+    'heic': [new Uint8Array([0x00])],
+    'heif': [new Uint8Array([0x00])],
     // 添加更多的文件类型和特征
   };
 
@@ -34,6 +36,7 @@ export class FileTypeUtil {
 
   isImage(arraybuffer: ArrayBuffer) {
     let value = this.getFileType(arraybuffer);
+    LogUtil.log("debug_img", 'isImage value = ' + value);
     if (
       value == SupportFormat.jpg ||
         value == SupportFormat.png ||
@@ -41,7 +44,9 @@ export class FileTypeUtil {
         value == SupportFormat.webp ||
         value == SupportFormat.bmp ||
         value == SupportFormat.gif ||
-        value == SupportFormat.svg
+        value == SupportFormat.svg ||
+        value == SupportFormat.heic ||
+        value == SupportFormat.heif
     ) {
       return true;
     }
@@ -57,7 +62,9 @@ export class FileTypeUtil {
         const bufferList = this.fileSignatureMap[fileType];
         for (let i = 0; i < bufferList.length; i++) {
           let signature = bufferList[i];
+          LogUtil.log("debug_img", "getFileType, fileType = " + fileType);
           if (this.matchesSignature(fileData, signature)) {
+            //todo-heic
             hasMatched = true;
             matchedFileType = fileType;
             break
@@ -80,6 +87,7 @@ export class FileTypeUtil {
     }
 
     for (let i = 0; i < signature.length; i++) {
+      LogUtil.log("debug_img", "matchesSignature, fileData[" + i + "] = " + fileData[i] + ", signature[" + i + "] = " + signature[i])
       if (fileData[i] !== signature[i]) {
         return false; // 魔数不匹配
       }
@@ -96,7 +104,9 @@ export enum PhotoFormat {
   gif = 'gif,0,474946383961',
   svg = 'svg,0,3C3F786D6C',
   webp = 'webp,0,52494646',
-  tiff = 'tiff,0,492049|49492A00|4D4D002A|4D4D002B'
+  tiff = 'tiff,0,492049|49492A00|4D4D002A|4D4D002B',
+  heic = 'heic,0,00',
+  heif = 'heif,0,00'
 }
 
 export enum SupportFormat {
@@ -106,5 +116,7 @@ export enum SupportFormat {
   bmp = 'bmp',
   gif = 'gif',
   svg = 'svg',
-  tiff = 'tiff'
+  tiff = 'tiff',
+  heic = 'heic',
+  heif = 'heif'
 }

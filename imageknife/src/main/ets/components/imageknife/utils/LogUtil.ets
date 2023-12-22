@@ -20,7 +20,7 @@ export class LogUtil {
   public static WARN: number = 5
   public static ERROR: number = 6
   public static ALL: number = 7
-  public static mLogLevel:number = LogUtil.OFF;
+  public static mLogLevel:number = LogUtil.ALL;
 
   public static debug(message: string, ...args: Object[]) {
     if (LogUtil.mLogLevel >= LogUtil.DEBUG) {

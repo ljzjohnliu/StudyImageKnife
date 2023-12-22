@@ -28,6 +28,7 @@ export class ParseImageUtil implements IParseImage<PixelMap> {
   parseImageThumbnail(scale: number, imageinfo: ArrayBuffer, onCompleteFunction: (value: PixelMap) => void | PromiseLike<PixelMap>, onErrorFunction: (reason?: BusinessError | string) => void) {
 
     let imageSource: image.ImageSource = image.createImageSource(imageinfo); // 步骤一：文件转为pixelMap 然后变换 给Image组件
+    //todo-heic 在这里添加heif解码功能
     imageSource.getImageInfo().then((value) => {
       let hValue = Math.round(value.size.height * scale);
       let wValue = Math.round(value.size.width * scale);
