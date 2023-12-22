@@ -22,7 +22,14 @@ struct SecondPage {
           .height('40vp')
           .backgroundColor('#007DFF')
           .onClick(() => {
-            router.back();
+            console.info(`Succeeded in clicking the 'Back' button.`)
+            try {
+              // 返回第一页
+              router.back()
+              console.info('Succeeded in returning to the first page.')
+            } catch (err) {
+              console.error(`Failed to return to the first page.Code is ${err}`)
+            }
           })
 
         LoadingProgress()

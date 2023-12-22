@@ -26,10 +26,20 @@ struct IndexPage {
               params: {
                 src: 'Index页面传来的数据'
               }
+            }).then(() => {
+              console.info('Succeeded in jumping to the second page.')
             }).catch((error: Error) => {
               hilog.debug(0, TAG, 'IndexPage push error' + JSON.stringify(error))
             })
           })
+
+        Image($r('app.media.test'))
+          .objectFit(ImageFit.Contain)
+          .borderRadius(200)
+          .clip(true)
+          .width('100vp')
+          .height('100vp')
+          .margin($r('app.float.checkbox_margin'))
       }
       .width('100%')
     }
