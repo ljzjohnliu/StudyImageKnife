@@ -529,7 +529,11 @@ export class RequestManager {
               this.saveCacheAndDisk(value, filetype, onComplete, source);
             }
           }
-          this.mParseImageUtil.parseImage(source, success, onError)
+          if (ImageKnifeData.HEIC == filetype) {
+            this.mParseImageUtil.parseImage(source, success, onError)
+          } else {
+            this.mParseImageUtil.parseImage(source, success, onError)
+          }
         }
       }
     }

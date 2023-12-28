@@ -90,6 +90,7 @@ export class DrawGIFFrame {
 }
 
 export class ImageKnifeData {
+  static HEIC = 'heic';
   static SVG = 'svg';
   static GIF = 'gif';
   static JPG = 'jpg';

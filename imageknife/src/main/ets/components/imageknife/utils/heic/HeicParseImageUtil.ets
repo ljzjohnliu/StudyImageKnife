@@ -13,13 +13,13 @@
  * limitations under the License.
  */
 
-import { IParseImage } from '../interface/IParseImage'
+import { IParseImage } from '../../interface/IParseImage'
 import image from '@ohos.multimedia.image';
 import { BusinessError } from '@ohos.base'
 import taskpool from '@ohos.taskpool';
-import { LogUtil } from './LogUtil';
+import { LogUtil } from '../LogUtil';
 
-export class ParseImageUtil implements IParseImage<PixelMap> {
+export class HeicParseImageUtil implements IParseImage<PixelMap> {
   parseImage(imageinfo: ArrayBuffer, onCompleteFunction: (value: PixelMap) => void | PromiseLike<PixelMap>, onErrorFunction: (reason?: BusinessError | string) => void) {
     this.parseImageThumbnail(1, imageinfo, onCompleteFunction, onErrorFunction)
   }
