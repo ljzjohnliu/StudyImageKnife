@@ -1,9 +1,9 @@
 {
   "module": {
-    "name": "TodoDemo",
-    "type": "entry",
+    "name": "TestNAPI",
+    "type": "feature",
     "description": "$string:module_desc",
-    "mainElement": "EntryAbility",
+    "mainElement": "TestNAPIAbility",
     "deviceTypes": [
       "phone",
       "tablet",
@@ -14,11 +14,11 @@
     "pages": "$profile:main_pages",
     "abilities": [
       {
-        "name": "EntryAbility",
-        "srcEntry": "./ets/entryability/EntryAbility.ets",
-        "description": "$string:TodoDemoAbility_desc",
+        "name": "TestNAPIAbility",
+        "srcEntry": "./ets/testnapiability/TestNAPIAbility.ets",
+        "description": "$string:TestNAPIAbility_desc",
         "icon": "$media:icon",
-        "label": "$string:TodoDemoAbility_label",
+        "label": "$string:TestNAPIAbility_label",
         "startWindowIcon": "$media:startIcon",
         "startWindowBackground": "$color:start_window_background",
         "exported": true,

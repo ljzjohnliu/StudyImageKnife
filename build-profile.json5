@@ -65,6 +65,18 @@
           ]
         }
       ]
+    },
+    {
+      "name": "TestNAPI",
+      "srcPath": "./TestNAPI",
+      "targets": [
+        {
+          "name": "default",
+          "applyToProducts": [
+            "default"
+          ]
+        }
+      ]
     }
   ]
 }

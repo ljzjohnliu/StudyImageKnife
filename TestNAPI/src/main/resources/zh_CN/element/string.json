@@ -1,0 +1,16 @@
+{
+  "string": [
+    {
+      "name": "module_desc",
+      "value": "模块描述"
+    },
+    {
+      "name": "TestNAPIAbility_desc",
+      "value": "description"
+    },
+    {
+      "name": "TestNAPIAbility_label",
+      "value": "TestNAPI"
+    }
+  ]
+}

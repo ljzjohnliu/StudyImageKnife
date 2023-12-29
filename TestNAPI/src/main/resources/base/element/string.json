@@ -1,0 +1,16 @@
+{
+  "string": [
+    {
+      "name": "module_desc",
+      "value": "module description"
+    },
+    {
+      "name": "TestNAPIAbility_desc",
+      "value": "description"
+    },
+    {
+      "name": "TestNAPIAbility_label",
+      "value": "TestNAPI"
+    }
+  ]
+}
